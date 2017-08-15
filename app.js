@@ -66,7 +66,10 @@ app.get("/info/:id", (req, res) => {
 })
 
 app.get("/needwork", (req, res) => {
-  needWork()
+  let collection = database.collection("robots")
+  collection.find({ job: null }).toArray((err, robots) => {
+    res.render("needwork", { robots: robots })
+  })
 })
 
 app.listen(3000, () => {
