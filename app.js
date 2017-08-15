@@ -1,8 +1,10 @@
 const express = require("express")
 const mustacheExpress = require("mustache-express")
 const bodyParser = require("body-parser")
-const MongoClient = require("mongodb").MongoClient,
-  assert = require("assert")
+const MongoClient = require("mongodb").MongoClient
+const ObjectId = require("mongodb").ObjectId
+const assert = require("assert")
+
 let database
 let url = "mongodb://localhost:27017/robots"
 
@@ -35,33 +37,36 @@ let insertDocuments = function(db, callback) {
   })
 }
 
-const getAllRobots = (db, callback) => {
-  let collection = db.collection("robots")
-  collection.find({}).toArray((err, docs) => {
-    console.log({ err, docs })
-    callback(err, docs)
-  })
-}
-
 MongoClient.connect(url, function(err, db) {
   assert.equal(null, err)
   database = db
   console.log("Connected successfully to mongo server")
-  // insertDocuments(db, () => {
-  //   console.log("successfully inserted")
-  // })
-
-  getAllRobots(db, (err, robots) => {
-    console.log("successs")
-    console.log({ err, robots })
-  })
-  // db.close()
 })
 
 app.get("/", (req, res) => {
-  getAllRobots(database, (err, robots) => {
-    res.json({ robots })
+  let collection = database.collection("robots")
+  collection.find({}).toArray((err, robots) => {
+    res.render("home", { robots: robots })
   })
+})
+
+app.get("/info/:id", (request, responce) => {
+  // Get the ID from the URL
+  const requestId = request.params.id
+
+  // Make a connection to the 'robots' collection
+  let collection = database.collection("robots")
+
+  // Find One robot from the collection by trying
+  // to match the ID from the params (requestId) to
+  // the mongo generated `_id` attribute
+  //
+  // THEN, when you find one, render that robot
+  collection.findOne({ _id: ObjectId(requestId) }).then(robot => responce.render("info", robot))
+})
+
+app.get("/needwork", (req, res) => {
+  needWork()
 })
 
 app.listen(3000, () => {

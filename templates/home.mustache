@@ -6,11 +6,15 @@
     <title>User Directory</title>
   </head>
   <body>
+    <h1>This is working</h1>
+    <form class="" action="/" method="post">
+      <button type="submit" name="button">In need of work</button>
+    </form>
     <ul class="users">
-      {{#users}}
+      {{#robots}}
       <li>
       <img src="{{avatar}}" alt="" height="100" width="100">
-      <h3><a href="/info/{{id}}-{{username}}">{{name}}</a></h3>
+      <h3><a href="/info/{{_id}}">{{name}}</a></h3>
       <!-- / absolute path, . is relative path  -->
       <!-- if there is a job -->
       {{#job}}
@@ -30,7 +34,7 @@
       <p>no skills, so sad</p>
       {{/skills}}
       </li>
-      {{/users}}
+      {{/robots}}
     </ul>
 
   </body>
