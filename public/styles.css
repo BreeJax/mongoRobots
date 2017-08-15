@@ -1,6 +1,9 @@
 body {
   font-family: fantasy;
   font-size: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   /*background-color: #666;*/
 }
 
@@ -85,4 +88,13 @@ h1 {
   width: 30em;
   height: 10em;
   padding-left: 3em;
+}
+button {
+  width: 13em;
+  font-size: 2em;
+  font-family: fantasy;
+  padding: 0.75em 0 0.25em 0;
+  background-color: rebeccapurple;
+  color: lightgray;
+  border-radius: 9px;
 }

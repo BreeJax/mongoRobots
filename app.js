@@ -50,9 +50,9 @@ app.get("/", (req, res) => {
   })
 })
 
-app.get("/info/:id", (request, responce) => {
+app.get("/info/:id", (req, res) => {
   // Get the ID from the URL
-  const requestId = request.params.id
+  const requestId = req.params.id
 
   // Make a connection to the 'robots' collection
   let collection = database.collection("robots")
@@ -62,7 +62,7 @@ app.get("/info/:id", (request, responce) => {
   // the mongo generated `_id` attribute
   //
   // THEN, when you find one, render that robot
-  collection.findOne({ _id: ObjectId(requestId) }).then(robot => responce.render("info", robot))
+  collection.findOne({ _id: ObjectId(requestId) }).then(robot => res.render("info", robot))
 })
 
 app.get("/needwork", (req, res) => {
